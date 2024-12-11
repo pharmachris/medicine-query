@@ -73,7 +73,7 @@
     // 從 GitHub 載入 JSON 資料
     async function loadData() {
       try {
-        const response = await fetch('https://raw.githubusercontent.com/john-doe/medicine-data/main/data.json');
+        const response = await fetch('https://raw.githubusercontent.com/pharmachris/medicine-query/main/data.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
