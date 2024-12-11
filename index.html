@@ -1,102 +1,62 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>藥品給付規定查詢系統</title>
+  <title>JSON Data Example</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f9;
+      margin: 20px;
     }
-    .container {
-      max-width: 800px;
-      margin: 50px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #45a049;
-    }
-    .result {
+    .data-container {
       margin-top: 20px;
       padding: 10px;
-      background: #f9f9f9;
-      border: 1px solid #ddd;
-      border-radius: 4px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
     }
-    .result h3 {
-      margin: 0;
-      color: #555;
+    .error {
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>藥品給付規定查詢系統</h1>
-    <input type="text" id="searchInput" placeholder="輸入關鍵字查詢...">
-    <button onclick="search()">查詢</button>
-    <div id="results" class="result"></div>
+  <h1>載入 JSON 資料範例</h1>
+  <p>這是一個簡單的範例，從 `data.json` 文件中載入資料並顯示。</p>
+
+  <div id="data-container" class="data-container">
+    <p>正在載入資料...</p>
   </div>
 
   <script>
-    // 載入 JSON 資料 (將 Apps Script 部署的 Web 應用程式 URL 放在此處)
-    const jsonUrl = "https://script.google.com/macros/s/AKfycbwUO4R3AiBT8_Hkwvg-8wT2x6elBZi-SY5uWAshPmzNkIreWrUNxZguP661ocO64cMn7g/exec";
+    // JSON 文件的 URL
+    const jsonUrl = "data.json";
 
-    let data = [];
-
-    // 取得 JSON 資料
+    // 載入 JSON 資料並顯示在頁面上
     fetch(jsonUrl)
-      .then(response => response.json())
-      .then(json => {
-        data = json;
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("網路回應錯誤：" + response.statusText);
+        }
+        return response.json();
       })
-      .catch(error => console.error("載入 JSON 資料失敗：", error));
-
-    // 查詢功能
-    function search() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
-      const resultsDiv = document.getElementById("results");
-      resultsDiv.innerHTML = "";
-
-      const results = data.filter(item =>
-        item.主題.toLowerCase().includes(input) || item.內容.toLowerCase().includes(input)
-      );
-
-      if (results.length === 0) {
-        resultsDiv.innerHTML = "<p>找不到相關資料。</p>";
-      } else {
-        results.forEach(item => {
-          const resultItem = document.createElement("div");
-          resultItem.innerHTML = `<h3>${item.主題}</h3><p>${item.內容}</p>`;
-          resultsDiv.appendChild(resultItem);
-        });
-      }
-    }
+      .then(data => {
+        // 將資料顯示在頁面上
+        const container = document.getElementById("data-container");
+        container.innerHTML = `
+          <h2>載入的 JSON 資料：</h2>
+          <p><strong>姓名：</strong> ${data.name}</p>
+          <p><strong>年齡：</strong> ${data.age}</p>
+          <p><strong>職業：</strong> ${data.job}</p>
+        `;
+      })
+      .catch(error => {
+        // 錯誤處理
+        const container = document.getElementById("data-container");
+        container.innerHTML = `<p class="error">載入資料失敗：${error.message}</p>`;
+      });
   </script>
 </body>
 </html>
