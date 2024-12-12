@@ -52,6 +52,10 @@
       margin: 5px 0;
       color: #666;
     }
+    .highlight {
+      font-weight: bold;
+      background-color: yellow;
+    }
   </style>
 </head>
 <body>
@@ -91,9 +95,20 @@
       filteredData.forEach(item => {
         item.內容.forEach(paragraph => {
           const paragraphElement = document.createElement('p');
-          paragraphElement.textContent = paragraph;
+          let modifiedParagraph = paragraph;
+
+          item.藥品名稱.forEach(name => {
+            const regex = new RegExp(`(${name})`, 'gi');
+            modifiedParagraph = modifiedParagraph.replace(regex, '<span class="highlight">$1</span>');
+          });
+
+          paragraphElement.innerHTML = modifiedParagraph;
           resultsDiv.appendChild(paragraphElement);
         });
+
+        // 添加兩個空段落
+        resultsDiv.appendChild(document.createElement('br'));
+        resultsDiv.appendChild(document.createElement('br'));
       });
 
       if (resultsDiv.innerHTML === '') {
