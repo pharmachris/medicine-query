@@ -56,10 +56,6 @@
       margin: 5px 0;
       color: #666;
     }
-    .highlight {
-      font-weight: bold;
-      background-color: yellow;
-    }
   </style>
 </head>
 <body>
@@ -99,14 +95,19 @@
       const resultsDiv = document.getElementById('results');
       resultsDiv.innerHTML = ''; // 清除之前的結果
 
-      data.forEach(item => {
+      const filteredData = data.filter(item => {
+        return item.藥品名稱.some(name => name.toLowerCase().includes(drugName));
+      });
+
+      filteredData.forEach(item => {
+        const itemDiv = document.createElement('div');
         item.內容.forEach(paragraph => {
-          if (paragraph.toLowerCase().includes(drugName)) {
-            const paragraphElement = document.createElement('p');
-            paragraphElement.innerHTML = paragraph;
-            resultsDiv.appendChild(paragraphElement);
-          }
+          const paragraphElement = document.createElement('p');
+          paragraphElement.innerHTML = paragraph;
+          itemDiv.appendChild(paragraphElement);
         });
+        resultsDiv.appendChild(itemDiv);
+        resultsDiv.appendChild(document.createElement('br'));
       });
 
       if (resultsDiv.innerHTML === '') {
