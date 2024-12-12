@@ -106,7 +106,7 @@
       if (filteredData.length > 0) {
         filteredData.forEach(item => {
           const resultItem = document.createElement('p');
-          resultItem.textContent = `藥品名稱: ${item['藥品名稱'].join(', ')}`;
+          resultItem.textContent = `內容: ${item['內容'].join(' ')}`;
           resultsContainer.appendChild(resultItem);
         });
       } else {
