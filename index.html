@@ -62,7 +62,8 @@
 <body>
   <div class="container">
     <h1>藥品給付規定查詢系統</h1>
-    <input type="text" id="searchInput" placeholder="輸入關鍵字查詢...">
+    <input type="text" id="drugSearchInput" placeholder="輸入藥品名稱查詢...">
+    <input type="text" id="wordSearchInput" placeholder="輸入英文單字查詢...">
     <button onclick="search()">查詢</button>
     <div id="results" class="result"></div>
   </div>
@@ -88,14 +89,15 @@
 
     // 查詢功能
     function search() {
-      const input = document.getElementById("searchInput").value.toLowerCase();
+      const drugInput = document.getElementById("drugSearchInput").value.toLowerCase();
+      const wordInput = document.getElementById("wordSearchInput").value.toLowerCase();
       const resultsDiv = document.getElementById("results");
       resultsDiv.innerHTML = "";
 
       // 篩選符合條件的資料
       const results = data.filter(item =>
-        (item.藥品名稱 && item.藥品名稱.some(name => name.toLowerCase().includes(input))) || 
-        (item.英文單字 && item.英文單字.some(word => word.toLowerCase().includes(input)))
+        (item.藥品名稱 && item.藥品名稱.some(name => name.toLowerCase().includes(drugInput))) || 
+        (item.英文單字 && item.英文單字.some(word => word.toLowerCase().includes(wordInput)))
       );
 
       if (results.length === 0) {
