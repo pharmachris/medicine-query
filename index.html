@@ -104,11 +104,10 @@
           const paragraphElement = document.createElement('p');
           paragraphElement.innerHTML = modifiedParagraph;
           resultsDiv.appendChild(paragraphElement);
-
-          // 添加兩個空段落
-          resultsDiv.appendChild(document.createElement('br'));
-          resultsDiv.appendChild(document.createElement('br'));
         });
+
+        // 添加段落間的空白行
+        resultsDiv.appendChild(document.createElement('br'));
       });
 
       if (resultsDiv.innerHTML === '') {
