@@ -51,10 +51,15 @@
       background: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 4px;
+      white-space: pre-wrap;
     }
     .result p {
       margin: 5px 0;
       color: #666;
+    }
+    .highlight {
+      font-weight: bold;
+      background-color: yellow;
     }
   </style>
 </head>
@@ -100,10 +105,16 @@
       );
 
       if (filteredData.length > 0) {
-        filteredData.forEach(item => {
+        filteredData.forEach((item, index) => {
+          const content = item['內容'].join(' ').replace(new RegExp(input, 'gi'), match => `<span class="highlight">${match}</span>`);
           const resultItem = document.createElement('p');
-          resultItem.textContent = `內容: ${item['內容'].join(' ')}`;
+          resultItem.innerHTML = `內容: ${content}`;
           resultsContainer.appendChild(resultItem);
+
+          if (index < filteredData.length - 1) {
+            resultsContainer.appendChild(document.createElement('br'));
+            resultsContainer.appendChild(document.createElement('br'));
+          }
         });
       } else {
         resultsContainer.textContent = '未找到匹配的藥品。';
