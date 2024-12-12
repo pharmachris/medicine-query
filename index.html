@@ -76,7 +76,7 @@
     // 載入 JSON 資料
     async function loadData() {
       try {
-        const response = await fetch('完整給付規定整理.json'); // 確保 JSON 文件的路徑正確
+        const response = await fetch('data.json'); // 使用正確的 JSON 文件名稱
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
