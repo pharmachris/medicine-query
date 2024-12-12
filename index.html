@@ -38,7 +38,11 @@
       border-radius: 4px;
       cursor: pointer;
     }
-    button:hover {
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    button:hover:enabled {
       background-color: #45a049;
     }
     .result {
@@ -61,8 +65,8 @@
 <body>
   <div class="container">
     <h1>藥品給付規定查詢系統</h1>
-    <input type="text" id="drugSearchInput" placeholder="輸入藥品名稱查詢...">
-    <button onclick="search()">查詢</button>
+    <input type="text" id="drugSearchInput" placeholder="輸入藥品名稱查詢..." oninput="toggleButton()">
+    <button id="searchButton" onclick="search()" disabled>查詢</button>
     <div id="results" class="result"></div>
   </div>
 
@@ -80,6 +84,13 @@
       } catch (error) {
         console.error('載入資料失敗:', error);
       }
+    }
+
+    // 切換按鈕狀態
+    function toggleButton() {
+      const drugName = document.getElementById('drugSearchInput').value;
+      const searchButton = document.getElementById('searchButton');
+      searchButton.disabled = drugName.trim() === '';
     }
 
     // 搜尋功能
