@@ -94,7 +94,7 @@
 
       // 篩選符合條件的資料
       const results = data.filter(item =>
-        (item.主題 && item.主題.toLowerCase().includes(input)) || 
+        (item.藥品名稱 && item.藥品名稱.some(name => name.toLowerCase().includes(input))) || 
         (item.內容 && item.內容.toLowerCase().includes(input))
       );
 
@@ -104,7 +104,7 @@
         results.forEach(item => {
           const resultItem = document.createElement("div");
           resultItem.innerHTML = `
-            <h3>${item.主題 || "無主題"}</h3>
+            <h3>${item.藥品名稱.join(', ') || "無藥品名稱"}</h3>
             <p>${item.內容}</p>
           `;
           resultsDiv.appendChild(resultItem);
