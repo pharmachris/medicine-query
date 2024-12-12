@@ -94,7 +94,6 @@
 
       filteredData.forEach(item => {
         item.內容.forEach(paragraph => {
-          const paragraphElement = document.createElement('p');
           let modifiedParagraph = paragraph;
 
           item.藥品名稱.forEach(name => {
@@ -102,6 +101,7 @@
             modifiedParagraph = modifiedParagraph.replace(regex, '<span class="highlight">$1</span>');
           });
 
+          const paragraphElement = document.createElement('p');
           paragraphElement.innerHTML = modifiedParagraph;
           resultsDiv.appendChild(paragraphElement);
         });
