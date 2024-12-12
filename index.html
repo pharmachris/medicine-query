@@ -24,9 +24,9 @@
       color: #333;
     }
     input[type="text"] {
-      width: calc(50% - 12px);
+      width: calc(100% - 22px);
       padding: 10px;
-      margin: 10px 5px;
+      margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
@@ -58,7 +58,6 @@
   <div class="container">
     <h1>藥品給付規定查詢系統</h1>
     <input type="text" id="drugSearchInput" placeholder="輸入藥品名稱查詢...">
-    <input type="text" id="wordSearchInput" placeholder="輸入英文單字查詢...">
     <button onclick="search()">查詢</button>
     <div id="results" class="result"></div>
   </div>
@@ -82,14 +81,11 @@
     // 搜尋功能
     function search() {
       const drugName = document.getElementById('drugSearchInput').value.toLowerCase();
-      const word = document.getElementById('wordSearchInput').value.toLowerCase();
       const resultsDiv = document.getElementById('results');
       resultsDiv.innerHTML = ''; // 清除之前的結果
 
       const filteredData = data.filter(item => {
-        const drugMatch = item.藥品名稱.some(name => name.toLowerCase().includes(drugName));
-        const wordMatch = item.英文單字.some(w => w.toLowerCase().includes(word));
-        return drugMatch || wordMatch;
+        return item.藥品名稱.some(name => name.toLowerCase().includes(drugName));
       });
 
       filteredData.forEach(item => {
