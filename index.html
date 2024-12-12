@@ -76,7 +76,7 @@
     // 載入 JSON 資料
     async function loadData() {
       try {
-        const response = await fetch('data.json'); // 確保 JSON 文件的路徑正確
+        const response = await fetch('https://raw.githubusercontent.com/pharmachris/medicine-query/main/data.json');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -86,46 +86,35 @@
       }
     }
 
-    // 切換按鈕狀態
+    // 啟用或禁用按鈕
     function toggleButton() {
-      const drugName = document.getElementById('drugSearchInput').value;
       const searchButton = document.getElementById('searchButton');
-      searchButton.disabled = drugName.trim() === '';
+      const input = document.getElementById('drugSearchInput').value;
+      searchButton.disabled = input.trim() === '';
     }
 
     // 搜尋功能
     function search() {
-      const drugName = document.getElementById('drugSearchInput').value.toLowerCase();
-      const resultsDiv = document.getElementById('results');
-      resultsDiv.innerHTML = ''; // 清除之前的結果
+      const input = document.getElementById('drugSearchInput').value.toLowerCase();
+      const resultsContainer = document.getElementById('results');
+      resultsContainer.innerHTML = '';
 
-      const filteredData = data.filter(item => {
-        return item.藥品名稱.some(name => name.toLowerCase().includes(drugName));
-      });
+      const filteredData = data.filter(item => 
+        item['藥品名稱'].some(name => name.toLowerCase().includes(input))
+      );
 
-      filteredData.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        item.內容.forEach(paragraph => {
-          const highlightedParagraph = paragraph.replace(new RegExp(drugName, 'gi'), match => {
-            return `<span class="highlight">${match}</span>`;
-          });
-          const paragraphElement = document.createElement('p');
-          paragraphElement.innerHTML = highlightedParagraph;
-          itemDiv.appendChild(paragraphElement);
+      if (filteredData.length > 0) {
+        filteredData.forEach(item => {
+          const resultItem = document.createElement('p');
+          resultItem.textContent = `藥品名稱: ${item['藥品名稱'].join(', ')}`;
+          resultsContainer.appendChild(resultItem);
         });
-        resultsDiv.appendChild(itemDiv);
-        if (index < filteredData.length - 1) {
-          resultsDiv.appendChild(document.createElement('br'));
-          resultsDiv.appendChild(document.createElement('br'));
-        }
-      });
-
-      if (resultsDiv.innerHTML === '') {
-        resultsDiv.innerHTML = '<p>沒有找到相關結果。</p>';
+      } else {
+        resultsContainer.textContent = '未找到匹配的藥品。';
       }
     }
 
-    // 初始化載入資料
+    // 初始化
     loadData();
   </script>
 </body>
