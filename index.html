@@ -96,10 +96,11 @@
         item.內容.forEach(paragraph => {
           let modifiedParagraph = paragraph;
 
-          item.藥品名稱.forEach(name => {
-            const regex = new RegExp(`(${name})`, 'gi');
+          // 只對輸入框中的字串進行底色和加粗處理
+          if (drugName) {
+            const regex = new RegExp(`(${drugName})`, 'gi');
             modifiedParagraph = modifiedParagraph.replace(regex, '<span class="highlight">$1</span>');
-          });
+          }
 
           const paragraphElement = document.createElement('p');
           paragraphElement.innerHTML = modifiedParagraph;
