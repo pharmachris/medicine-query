@@ -76,7 +76,7 @@
     // 載入 JSON 資料
     async function loadData() {
       try {
-        const response = await fetch('data.json'); // 確保 JSON 文件的路徑正確
+        const response = await fetch('完整給付規定整理.json'); // 確保 JSON 文件的路徑正確
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -103,7 +103,7 @@
         return item.藥品名稱.some(name => name.toLowerCase().includes(drugName));
       });
 
-      filteredData.forEach(item => {
+      filteredData.forEach((item, index) => {
         const itemDiv = document.createElement('div');
         item.內容.forEach(paragraph => {
           const highlightedParagraph = paragraph.replace(new RegExp(drugName, 'gi'), match => {
@@ -114,7 +114,10 @@
           itemDiv.appendChild(paragraphElement);
         });
         resultsDiv.appendChild(itemDiv);
-        resultsDiv.appendChild(document.createElement('br'));
+        if (index < filteredData.length - 1) {
+          resultsDiv.appendChild(document.createElement('br'));
+          resultsDiv.appendChild(document.createElement('br'));
+        }
       });
 
       if (resultsDiv.innerHTML === '') {
