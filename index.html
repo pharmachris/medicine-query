@@ -99,27 +99,14 @@
       const resultsDiv = document.getElementById('results');
       resultsDiv.innerHTML = ''; // 清除之前的結果
 
-      const filteredData = data.filter(item => {
-        return item.藥品名稱.some(name => name.toLowerCase().includes(drugName));
-      });
-
-      filteredData.forEach(item => {
+      data.forEach(item => {
         item.內容.forEach(paragraph => {
-          let modifiedParagraph = paragraph;
-
-          // 只對輸入框中的字串進行底色和加粗處理
-          if (drugName) {
-            const regex = new RegExp(`(${drugName})`, 'gi');
-            modifiedParagraph = modifiedParagraph.replace(regex, '<span class="highlight">$1</span>');
+          if (paragraph.toLowerCase().includes(drugName)) {
+            const paragraphElement = document.createElement('p');
+            paragraphElement.innerHTML = paragraph;
+            resultsDiv.appendChild(paragraphElement);
           }
-
-          const paragraphElement = document.createElement('p');
-          paragraphElement.innerHTML = modifiedParagraph;
-          resultsDiv.appendChild(paragraphElement);
         });
-
-        // 添加段落間的空白行
-        resultsDiv.appendChild(document.createElement('br'));
       });
 
       if (resultsDiv.innerHTML === '') {
